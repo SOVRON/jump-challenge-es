@@ -1,0 +1,57 @@
+services:
+  # Phoenix application
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: builder
+    container_name: jump_app
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@postgres:5432/jump_dev
+      MIX_ENV: dev
+      PHX_HOST: localhost
+      PORT: 4000
+      PHX_SERVER: true
+      
+      # OAuth URLs for development
+      APP_BASE_URL: http://localhost:4000
+      OAUTH_REDIRECT_URL_DEV: http://localhost:4000/auth/google/callback    
+      
+    ports:
+      - "4000:4000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - .:/app
+      - ./_volumes/app/_build:/app/_build
+      - ./_volumes/app/deps:/app/deps
+      - ./_volumes/app/assets/node_modules:/app/assets/node_modules
+    command: >
+      sh -c "
+        cd /app &&
+        mix deps.get &&
+        mix ecto.create &&
+        mix ecto.migrate &&
+        mix phx.server
+      "
+  
+  # Database with pgvector extension
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: jump_postgres
+    environment:
+      POSTGRES_DB: jump_dev
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./_volumes/postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d jump_dev"]
+      interval: 5s
+      timeout: 5s
+      retries: 5

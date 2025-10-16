@@ -1,0 +1,223 @@
+<Layouts.app flash={@flash} current_user={@current_user}>
+  <!-- Hero Section -->
+  <div class="bg-slate-50 py-12 sm:py-16">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto">
+        <h1 class="text-4xl sm:text-5xl font-bold text-slate-900 mb-4">
+          AI Agent for Financial Advisors
+        </h1>
+        <p class="text-lg text-slate-600 mb-8">
+          Power your workflow with intelligent email, calendar, and CRM automation
+        </p>
+        
+<!-- Demo Requirements Notice -->
+        <div class="inline-flex items-start gap-3 px-6 py-4 bg-amber-50 border border-amber-200 rounded-xl text-left max-w-2xl">
+          <div class="flex-shrink-0 mt-0.5">
+            <.icon name="hero-exclamation-triangle" class="w-6 h-6 text-amber-600" />
+          </div>
+          <div>
+            <h3 class="font-semibold text-amber-900 mb-1">Demo Requirements</h3>
+            <p class="text-sm text-amber-800">
+              <strong>HubSpot must be connected</strong>
+              to use the AI chat demo. Please connect all three integrations below to unlock the full experience.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+<!-- Main Content -->
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Connection Progress -->
+    <div class="max-w-4xl mx-auto mb-12">
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="text-sm font-semibold text-slate-600 uppercase tracking-wide">
+          Integration Setup
+        </h2>
+        <div class="text-sm font-medium text-slate-900">
+          {if @google_connected && @hubspot_connected,
+            do: "3",
+            else: if(@google_connected, do: "2", else: "0")}/3 Connected
+        </div>
+      </div>
+      <div class="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
+        <div
+          class="h-full bg-slate-900 rounded-full transition-all duration-500 ease-out"
+          style={"width: #{if @google_connected && @hubspot_connected, do: "100", else: if(@google_connected, do: "66", else: "0")}%"}
+        >
+        </div>
+      </div>
+    </div>
+    
+<!-- Integration Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto mb-12">
+      <!-- Gmail Integration Card -->
+      <div class="group relative bg-white rounded-xl border border-slate-200 hover:border-slate-300 shadow-sm transition-all duration-300">
+        <div class="p-6">
+          <div class="flex items-start justify-between mb-4">
+            <div class="flex items-center justify-center w-12 h-12 rounded-xl bg-slate-100 text-slate-600">
+              <.icon name="hero-envelope" class="w-6 h-6" />
+            </div>
+            <%= if @google_connected do %>
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full">
+                <.icon name="hero-check-circle-solid" class="w-4 h-4" /> Connected
+              </span>
+            <% else %>
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-slate-100 text-slate-600 text-xs font-semibold rounded-full">
+                <.icon name="hero-x-circle-solid" class="w-4 h-4" /> Not Connected
+              </span>
+            <% end %>
+          </div>
+
+          <h3 class="text-xl font-bold text-slate-900 mb-2">Gmail</h3>
+          <p class="text-sm text-slate-600 mb-6">
+            <%= if @google_connected do %>
+              Access emails, send messages, and manage your inbox with AI assistance.
+            <% else %>
+              Connect Gmail to enable email management and intelligent inbox assistance.
+            <% end %>
+          </p>
+
+          <div class="flex gap-2">
+            <%= if @google_connected do %>
+              <button class="flex-1 px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-medium rounded-lg transition-colors">
+                <.icon name="hero-cog-6-tooth" class="w-4 h-4 inline mr-1.5" /> Configure
+              </button>
+            <% else %>
+              <.link
+                href="/auth/google"
+                class="flex-1 px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold rounded-lg shadow-sm transition-all text-center"
+              >
+                <.icon name="hero-link" class="w-4 h-4 inline mr-1.5" /> Connect Gmail
+              </.link>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      
+<!-- Calendar Integration Card -->
+      <div class="group relative bg-white rounded-xl border border-slate-200 hover:border-slate-300 shadow-sm transition-all duration-300">
+        <div class="p-6">
+          <div class="flex items-start justify-between mb-4">
+            <div class="flex items-center justify-center w-12 h-12 rounded-xl bg-slate-100 text-slate-600">
+              <.icon name="hero-calendar" class="w-6 h-6" />
+            </div>
+            <%= if @google_connected do %>
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full">
+                <.icon name="hero-check-circle-solid" class="w-4 h-4" /> Connected
+              </span>
+            <% else %>
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-slate-100 text-slate-600 text-xs font-semibold rounded-full">
+                <.icon name="hero-x-circle-solid" class="w-4 h-4" /> Not Connected
+              </span>
+            <% end %>
+          </div>
+
+          <h3 class="text-xl font-bold text-slate-900 mb-2">Google Calendar</h3>
+          <p class="text-sm text-slate-600 mb-6">
+            <%= if @google_connected do %>
+              Schedule meetings, find time slots, and manage your calendar intelligently.
+            <% else %>
+              Connect Google Calendar to enable smart scheduling and event management.
+            <% end %>
+          </p>
+
+          <div class="flex gap-2">
+            <%= if @google_connected do %>
+              <button class="flex-1 px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-medium rounded-lg transition-colors">
+                <.icon name="hero-cog-6-tooth" class="w-4 h-4 inline mr-1.5" /> Configure
+              </button>
+            <% else %>
+              <.link
+                href="/auth/google"
+                class="flex-1 px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold rounded-lg shadow-sm transition-all text-center"
+              >
+                <.icon name="hero-link" class="w-4 h-4 inline mr-1.5" /> Connect Calendar
+              </.link>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      
+<!-- HubSpot Integration Card -->
+      <div class="group relative bg-white rounded-xl border border-slate-200 hover:border-slate-300 shadow-sm transition-all duration-300 md:col-span-2 lg:col-span-1">
+        <div class="p-6">
+          <div class="flex items-start justify-between mb-4">
+            <div class="flex items-center justify-center w-12 h-12 rounded-xl bg-slate-100 text-slate-600">
+              <.icon name="hero-building-office" class="w-6 h-6" />
+            </div>
+            <%= if @hubspot_connected do %>
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full">
+                <.icon name="hero-check-circle-solid" class="w-4 h-4" /> Connected
+              </span>
+            <% else %>
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-amber-100 text-amber-700 text-xs font-semibold rounded-full">
+                <.icon name="hero-exclamation-circle-solid" class="w-4 h-4" /> Required
+              </span>
+            <% end %>
+          </div>
+
+          <h3 class="text-xl font-bold text-slate-900 mb-2">HubSpot CRM</h3>
+          <p class="text-sm text-slate-600 mb-6">
+            <%= if @hubspot_connected do %>
+              Manage contacts, add notes, and sync CRM data with AI-powered insights.
+            <% else %>
+              <strong>Required for demo.</strong> Connect HubSpot to unlock the AI chat interface.
+            <% end %>
+          </p>
+
+          <div class="flex gap-2">
+            <%= if @hubspot_connected do %>
+              <button class="flex-1 px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-medium rounded-lg transition-colors">
+                <.icon name="hero-cog-6-tooth" class="w-4 h-4 inline mr-1.5" /> Configure
+              </button>
+            <% else %>
+              <.link
+                href="/auth/hubspot"
+                class="flex-1 px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold rounded-lg shadow-sm transition-all text-center"
+              >
+                <.icon name="hero-link" class="w-4 h-4 inline mr-1.5" /> Connect HubSpot
+              </.link>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+<!-- Launch Chat Button (Only when all connected) -->
+    <%= if @google_connected && @hubspot_connected do %>
+      <div class="max-w-4xl mx-auto">
+        <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-8 text-center">
+          <div class="inline-flex items-center justify-center w-16 h-16 rounded-xl bg-slate-100 text-slate-600 mb-4">
+            <.icon name="hero-chat-bubble-left-right" class="w-8 h-8" />
+          </div>
+          <h3 class="text-2xl font-bold text-slate-900 mb-2">You're All Set!</h3>
+          <p class="text-slate-600 mb-6 max-w-md mx-auto">
+            All integrations are connected. Launch the AI chat to start automating your workflow.
+          </p>
+          <.link
+            href="/chat"
+            class="inline-flex items-center gap-2 px-8 py-4 bg-slate-900 hover:bg-slate-800 text-white text-lg font-semibold rounded-lg shadow-sm transition-all"
+          >
+            <.icon name="hero-rocket-launch" class="w-6 h-6" /> Launch AI Chat
+            <.icon name="hero-arrow-right" class="w-5 h-5" />
+          </.link>
+        </div>
+      </div>
+    <% else %>
+      <!-- Placeholder when not all connected -->
+      <div class="max-w-4xl mx-auto">
+        <div class="border border-dashed border-slate-300 rounded-xl p-8 text-center bg-slate-50">
+          <div class="inline-flex items-center justify-center w-16 h-16 rounded-xl bg-slate-200 text-slate-400 mb-4">
+            <.icon name="hero-lock-closed" class="w-8 h-8" />
+          </div>
+          <h3 class="text-xl font-bold text-slate-600 mb-2">Almost There!</h3>
+          <p class="text-slate-500 max-w-md mx-auto">
+            Connect all integrations above to unlock the AI chat interface.
+          </p>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</Layouts.app>
